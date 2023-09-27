@@ -88,7 +88,7 @@ h1 {
     transition: var(--transition);
     cursor: pointer;
 }
-.singleMonster img{
+.singleMonster img, .inventoryImg img{
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -132,20 +132,19 @@ h1 {
     flex-direction: column;
     gap: 20px;
 }
-.playersOnline, .inventory, .weapons {
+.playersOnline, .inventoryCont, .weapons {
     padding: 10px;
     flex:1;
     background-color: #3b3b3b;
-}
-.weapons {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap:10px;
+    text-align: center;
 }
+
 .item {
-    /*border: 3px solid #171717;*/
     height: 150px;
     width: 150px;
     display: flex;
@@ -155,6 +154,7 @@ h1 {
     gap: 10px;
     padding: 10px;
     text-align: center;
+    position: relative;
 }
 
 .item img {
@@ -165,11 +165,12 @@ h1 {
     background-color: #171717;
 }
 .takeBtn {
-    width: 100px;
+    width: 100%;
     border: 3px solid #23EBB6;
     background-color: #3b3b3b;
     border-radius: 40px;
     color: #23EBB6;
+    /*padding: 0 5px;*/
 }
 .takeBtn:hover {
     background-color: #23EBB6;
@@ -177,4 +178,95 @@ h1 {
 }
 .moneySpan {
     color: #23EBB6;
+}
+.itemModal {
+    position: absolute;
+    min-height: 100px;
+    width: 100px;
+    top: -40%;
+    left: 60%;
+    text-align: left;
+    padding: 5px;
+    color: black;
+    font-size: small;
+    transition: var(--transition);
+    display: none;
+    border-radius: 10px;
+    z-index: 2;
+}
+.item:hover .itemModal,.inventoryImg :hover .itemModal,.inventoryItem:hover .itemModal{
+    display: block;
+}
+.inventoryItem:hover {
+    transform: scale(1.2);
+    z-index: 1;
+}
+.inventoryImg .itemModal {
+    top: -100%;
+}
+.inventoryCont {
+    justify-content: space-between;
+}
+.inventory {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #3b3b3b;
+    border: 2px solid #171717;
+    border-radius: 10px;
+    padding: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #171717;
+    border-radius: 10px;
+}
+
+.inventoryItem {
+    width: 80px;
+    height: 100px;
+    font-size: small;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+}
+.inventoryImg {
+    border-radius: 10px;
+    border: 5px solid #171717;
+    width: 80px;
+    height: 80px;
+    padding: 5px;
+    font-size: small;
+    position: relative;
+}
+.equipped {
+    display: flex;
+    gap: 20px;
+}
+.equipText {
+    color: #23EBB6;
+}
+.inventoryItem .itemModal {
+    top: -80%;
+    left: 40px;
+}
+.remove {
+    padding: 3px;
+    color: #b60404;
+    cursor:pointer;
+    border-radius: 3px;
+}
+.remove:hover {
+    color: #23EBB6;
+    border: 1px solid #23EBB6;
 }

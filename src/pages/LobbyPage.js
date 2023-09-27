@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import NavBar from "../components/NavBar";
-import WeaponsCont from "../components/WeaponsCont";
-import InventoryCont from "../components/InventoryCont";
+import ItemsGenerationCont from "../components/ItemsGenerationCont";
+import Inventory_Equip_Cont from "../components/Inventory_Equip_Cont";
 import PlayersOnline from "../components/PlayersOnline";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -36,8 +36,8 @@ const LobbyPage = () => {
                     <NavBar/>
                     <div className="lobby">
                         <div className="leftSide">
-                            <WeaponsCont/>
-                            <InventoryCont/>
+                            <ItemsGenerationCont/>
+                            <Inventory_Equip_Cont/>
                         </div>
                         <PlayersOnline/>
                     </div>
