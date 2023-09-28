@@ -9,6 +9,7 @@ const InventoryItem = ({item}) => {
     const equippedWeapon = useSelector(state => state.player.player.equippedWeapon);
     const equippedArmour = useSelector(state => state.player.player.equippedArmour);
     const equippedPotion = useSelector(state => state.player.player.equippedPotion);
+
     async function equip() {
         const options = {
             method: 'POST',
@@ -20,7 +21,6 @@ const InventoryItem = ({item}) => {
         }
         const res = await fetch('http://localhost:8000/equipItem',options);
         const data = await res.json();
-        console.log(data);
         dispatch(updatePlayer(data.data))
 
     }
@@ -31,7 +31,8 @@ const InventoryItem = ({item}) => {
             <div onClick={equip} className="inventoryImg" style={{backgroundColor: item.color ? item.color :'grey'}}>
                 <img src={item.image} alt=""/>
             </div>
-            {(item.id === equippedPotion.id || item.id === equippedWeapon.id || item.id === equippedArmour.id) && <b className="text-light">EQUIPPED</b>}
+            {((equippedPotion && item.id === equippedPotion.id) || (equippedWeapon && item.id === equippedWeapon.id) || ( equippedArmour && item.id === equippedArmour.id)) && <b className="text-light">EQUIPPED</b>}
+
         </div>
     );
 };

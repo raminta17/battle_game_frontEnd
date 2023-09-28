@@ -3,8 +3,8 @@ import {useRef} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
-import button from "bootstrap/js/src/button";
 import {updatePlayer} from "../features/player";
+import {socket} from "../App";
 
 const Form = ({page, selectedMonsterIndex}) => {
 
@@ -38,7 +38,6 @@ const Form = ({page, selectedMonsterIndex}) => {
         try {
             const res = await fetch('http://localhost:8000/register', options);
             const data = await res.json();
-            console.log('data', data);
             setError(data.message);
             if (!data.error) {
                 usernameRef.current.value = '';
@@ -70,17 +69,18 @@ const Form = ({page, selectedMonsterIndex}) => {
         try {
             const res = await fetch('http://localhost:8000/login', options);
             const data = await res.json();
-            console.log(data);
             setError(data.message);
             if (!data.error) {
-                if(JSON.parse(localStorage.getItem('auto-save'))){
-                    localStorage.setItem('TOKEN', data.data.token);
-                }
+                localStorage.setItem('TOKEN', data.data.token);
                 usernameRef.current.value = '';
                 passRef.current.value = '';
                 setError();
                 dispatch(updatePlayer(data.data.findPlayer))
                 nav('/lobby');
+                // socket.auth = {
+                //     token: localStorage.getItem('TOKEN')
+                // }
+                // socket.connect();
             }
         } catch (e) {
             console.log('error', e)

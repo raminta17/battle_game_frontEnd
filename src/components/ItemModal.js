@@ -22,7 +22,7 @@ const ItemModal = ({item, remove}) => {
 
     return (
         <div className="itemModal" style={{backgroundColor: item.color ? item.color : 'grey'}}>
-            <b className="d-flex align-items-center justify-content-between">{item.name} {remove &&
+            <b className="d-flex align-items-center justify-content-between">{item.name} {remove && item.id!==1 &&
                 <i onClick={removeItem} className="remove fa-solid fa-trash"></i>}</b>
             {item.level &&
             <div>Level: {item.level}</div>}

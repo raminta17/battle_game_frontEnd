@@ -1,16 +1,17 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
+import {socket} from "../App";
 
 const NavBar = () => {
 
     const nav = useNavigate();
     const loggedPlayer = useSelector(state=>state.player.player);
-    console.log(loggedPlayer);
     function handleLogOut() {
         localStorage.removeItem('TOKEN')
         localStorage.removeItem('auto-save')
-        nav('/')
+        nav('/');
+        // socket.disconnect();
     }
 
     return (

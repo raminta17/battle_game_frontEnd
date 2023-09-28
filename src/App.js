@@ -8,19 +8,13 @@ import RegisterPage from "./pages/RegisterPage";
 import {useEffect} from "react";
 
 export const socket = io('http://localhost:8000', {
-    autoConnect: true
+    autoConnect: false
 });
 
 
 
 function App() {
 
-    useEffect(() => {
-        socket.on('message', val => {
-
-            console.log(val)
-        })
-    }, []);
 
     return (
         <div>

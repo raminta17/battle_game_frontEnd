@@ -5,16 +5,30 @@ import Inventory_Equip_Cont from "../components/Inventory_Equip_Cont";
 import PlayersOnline from "../components/PlayersOnline";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {updatePlayer} from "../features/player";
+import {updatePlayer, updatePlayersOnline} from "../features/player";
+import {socket} from "../App";
 
 const LobbyPage = () => {
 
     const nav = useNavigate();
     const dispatch = useDispatch();
     const player = useSelector(state=>state.player.player);
-    console.log('player in redux',player);
 
     useEffect(() => {
+        socket.auth = {
+            token: localStorage.getItem('TOKEN')
+        }
+        socket.connect();
+
+        socket.on('sendingAllUsers', data => {
+            console.log(data);
+            const list = data.filter(dataPlayer => dataPlayer.socketId !== socket.id);
+            dispatch(updatePlayersOnline(list));
+        })
+    }, []);
+
+    useEffect(() => {
+
         if(JSON.parse(localStorage.getItem('auto-save'))) {
             const options = {
                 method: 'GET',

@@ -28,7 +28,6 @@ const ItemsGenerationCont = () => {
         }
         const res = await fetch('http://localhost:8000/generateItems',options);
         const data = await res.json();
-        console.log(data);
         dispatch(updatePlayer(data.data.playerToFrontEnd))
         setRandomWeapon(data.data.randomWeapon);
         setRandomArmour(data.data.randomArmour);
