@@ -14,25 +14,24 @@ const InventoryItem = ({item}) => {
         const options = {
             method: 'POST',
             headers: {
-                'content-type':'application/json',
+                'content-type': 'application/json',
                 authorization: localStorage.getItem('TOKEN')
             },
             body: JSON.stringify(item)
         }
-        const res = await fetch('http://localhost:8000/equipItem',options);
+        const res = await fetch('http://localhost:8000/equipItem', options);
         const data = await res.json();
         dispatch(updatePlayer(data.data))
-
     }
 
     return (
-        <div  className="inventoryItem">
+        <div className="inventoryItem">
             <ItemModal item={item} remove={true}/>
-            <div onClick={equip} className="inventoryImg" style={{backgroundColor: item.color ? item.color :'grey'}}>
+            <div onClick={equip} className="inventoryImg" style={{backgroundColor: item.color ? item.color : 'grey'}}>
                 <img src={item.image} alt=""/>
             </div>
-            {((equippedPotion && item.id === equippedPotion.id) || (equippedWeapon && item.id === equippedWeapon.id) || ( equippedArmour && item.id === equippedArmour.id)) && <b className="text-light">EQUIPPED</b>}
-
+            {((equippedPotion && item.id === equippedPotion.id) || (equippedWeapon && item.id === equippedWeapon.id) || (equippedArmour && item.id === equippedArmour.id)) &&
+                <b className="text-light">EQUIPPED</b>}
         </div>
     );
 };

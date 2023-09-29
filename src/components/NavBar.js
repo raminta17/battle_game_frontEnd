@@ -11,7 +11,7 @@ const NavBar = () => {
         localStorage.removeItem('TOKEN')
         localStorage.removeItem('auto-save')
         nav('/');
-        // socket.disconnect();
+        socket.disconnect();
     }
 
     return (
@@ -22,7 +22,6 @@ const NavBar = () => {
                     <img src={loggedPlayer.monster} alt=""/>
                 </div>
             </div>
-
             <div onClick={handleLogOut}>LOG OUT</div>
         </div>
     );

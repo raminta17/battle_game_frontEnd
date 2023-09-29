@@ -16,7 +16,6 @@ const Form = ({page, selectedMonsterIndex}) => {
     const nav = useNavigate();
     const dispatch = useDispatch();
 
-
     async function register() {
         if (!usernameRef.current.value) return setError('username cannot be empty')
         if (!passRef.current.value) return setError('password cannot be empty')
@@ -111,8 +110,10 @@ const Form = ({page, selectedMonsterIndex}) => {
                     <div>Do not have an account? <Link to="/register" style={{textDecoration:'none'}}><span className="span" >Register</span></Link></div>
                 </>
             :
-            <button onClick={() => nav('/')}>GO TO LOGIN</button>}
-
+                <div>
+                    Already have an account? <Link to="/" style={{textDecoration:'none'}}><span className="span" >Login</span></Link>
+                </div>
+            }
         </div>
     );
 };

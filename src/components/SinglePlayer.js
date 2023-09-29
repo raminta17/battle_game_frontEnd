@@ -1,29 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import {socket} from "../App";
+import {useDispatch, useSelector} from "react-redux";
+import {updateInvitedPlayer, updateIsInvitationSent, updatePlayerWhoWantsToPlay} from "../features/player";
 
 const SinglePlayer = ({player}) => {
 
-const [playerWhoWantsToPlay, setPayerWhoWantsToPlay] = useState();
-const [isInvitationSent, setInvitationSent] = useState(false);
 
-    useEffect(() => {
-        socket.on('receiveRequest', msg => {
-            console.log(msg)
-            setPayerWhoWantsToPlay(msg.playerThatSentAnInvite);
-        })
-        socket.on('denied', result => {
-            console.log(result);
-            setInvitationSent(result);
-        })
-    }, []);
+const isInvitationSent = useSelector(state=>state.player.isInvitationSent);
+const playerWhoWantsToPlay = useSelector(state => state.player.playerWhoWantsToPlay);
+const invitedPlayer = useSelector(state=>state.player.invitedPlayer);
+const dispatch = useDispatch();
+
 
     function sendInvite() {
+        dispatch(updateIsInvitationSent(true));
+        dispatch(updateInvitedPlayer(player));
         socket.emit('sendInvitation', player.socketId);
-        setInvitationSent(true);
     }
     function denyInvitation() {
-        setPayerWhoWantsToPlay();
+        dispatch(updatePlayerWhoWantsToPlay(null));
         socket.emit('invitationDenied', playerWhoWantsToPlay)
+    }
+    function acceptInvitation() {
+        socket.emit('invitationAccepted', playerWhoWantsToPlay);
     }
     return (
         <div className="singlePlayerCard">
@@ -35,14 +34,14 @@ const [isInvitationSent, setInvitationSent] = useState(false);
                 <div>
                     <b className="text-light">{playerWhoWantsToPlay.username} wants to play with you</b>
                     <div className="d-flex">
-                        <button className="takeBtn">Accept</button>
+                        <button onClick={acceptInvitation} className="takeBtn">Accept</button>
                         <button onClick={denyInvitation} className="takeBtn">Deny</button>
                     </div>
                 </div>
             :
                 <div className="d-flex flex-column align-items-start gap-2">
                     <b className="text-light">{player.username}</b>
-                    {isInvitationSent ? <b>INVITATION SENT</b> :
+                    {isInvitationSent && player.socketId === invitedPlayer.socketId ? <b>INVITATION SENT</b> :
                     <button onClick={sendInvite} className="takeBtn">INVITE TO BATTLE</button>}
                 </div>
             }

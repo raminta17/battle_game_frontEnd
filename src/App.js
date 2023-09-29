@@ -1,20 +1,48 @@
 import './App.css';
 import {io} from 'socket.io-client';
-import {Routes,Route} from "react-router-dom";
+import {Routes, Route, useNavigate} from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import LobbyPage from "./pages/LobbyPage";
 import GamePage from "./pages/GamePage";
 import RegisterPage from "./pages/RegisterPage";
 import {useEffect} from "react";
+import {updateIsInvitationSent, updatePlayersOnline, updatePlayerWhoWantsToPlay, updateRoom} from "./features/player";
+import {useDispatch} from "react-redux";
 
 export const socket = io('http://localhost:8000', {
     autoConnect: false
 });
 
-
-
 function App() {
 
+    const dispatch = useDispatch();
+    const nav= useNavigate();
+
+    useEffect(() => {
+        socket.on('sendingAllUsers', data => {
+            console.log(data);
+            const list = data.filter(dataPlayer => dataPlayer.socketId !== socket.id);
+            dispatch(updatePlayersOnline(list));
+        });
+        socket.on('receiveRequest', playerThatSentAnInvite => {
+            dispatch(updatePlayerWhoWantsToPlay(playerThatSentAnInvite));
+        });
+        socket.on('denied', result => {
+            dispatch(updateIsInvitationSent(result));
+        })
+        // socket.on('invitationSentSuccessfully', invitedPlayer => {
+        //     dispatch(invitedPlayer(invitedPlayer));
+        // })
+        socket.on('joinedRoom', room => {
+            console.log('room', room);
+            dispatch(updateRoom(room));
+            nav('/game');
+        });
+        socket.on('turnMade', room => {
+            console.log('room', room);
+            dispatch(updateRoom(room));
+        })
+    }, [])
 
     return (
         <div>

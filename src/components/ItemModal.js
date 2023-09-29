@@ -43,7 +43,6 @@ const ItemModal = ({item, remove}) => {
                     )}
                 </div>
             }
-
         </div>
     );
 };

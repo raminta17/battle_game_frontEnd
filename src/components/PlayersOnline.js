@@ -1,14 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useSelector} from "react-redux";
 import SinglePlayer from "./SinglePlayer";
-import {socket} from "../App";
 
 const PlayersOnline = () => {
 
     const playersOnline = useSelector(state=>state.player.playersOnline);
-
-
-
 
     return (
         <div className="playersOnline">
