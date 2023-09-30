@@ -1,8 +1,17 @@
 import React from 'react';
 import ItemModal from "./ItemModal";
+import {useSelector} from "react-redux";
+import {socket} from "../App";
 
 const PlayerInBattleComp = ({player}) => {
 
+    const room = useSelector(state=>state.player.room);
+    const loggedInPlayer = useSelector(state=>state.player.player);
+
+    function usePotion(){
+        console.log('clicked on potion');
+        if(loggedInPlayer.username === player.username) socket.emit('usePotion', {roomId: room.roomId, username: loggedInPlayer.username})
+    }
 
     return (
         <div className="playerCont">
@@ -11,7 +20,7 @@ const PlayerInBattleComp = ({player}) => {
             <div className="healthBarCont">
                 <div className="healthBar" style={{width: player.hp + '%'}}>{player.hp} HP</div>
             </div>
-            <div className="text-light">Money: {player.money}$</div>
+            <div className="moneyDiv text-light">{loggedInPlayer.username === player.username && `Money: ${player.winPot}$`}</div>
             <div className="equipped justify-content-around">
                 <div className="inventoryImg">
                     {player.equippedWeapon ?
@@ -32,7 +41,7 @@ const PlayerInBattleComp = ({player}) => {
                         : 'no equipped armour'}</div>
                 <div className="inventoryImg">
                     {player.equippedPotion ?
-                        <div>
+                        <div onClick={usePotion}>
                             <ItemModal item={player.equippedPotion}/>
                             <img src={player.equippedPotion.image}/>
                         </div>

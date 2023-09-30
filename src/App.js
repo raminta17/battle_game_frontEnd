@@ -38,7 +38,7 @@ function App() {
             dispatch(updateRoom(room));
             nav('/game');
         });
-        socket.on('turnMade', room => {
+        socket.on('roomInfo', room => {
             console.log('room', room);
             dispatch(updateRoom(room));
         })
