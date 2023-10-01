@@ -338,3 +338,11 @@ h1 {
 .moneyDiv {
     flex:1
 }
+.timer {
+    font-size: xxx-large;
+    color: white;
+}
+.dangerTimer{
+    font-size: xxx-large;
+    color: red;
+}

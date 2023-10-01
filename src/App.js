@@ -6,7 +6,13 @@ import LobbyPage from "./pages/LobbyPage";
 import GamePage from "./pages/GamePage";
 import RegisterPage from "./pages/RegisterPage";
 import {useEffect} from "react";
-import {updateIsInvitationSent, updatePlayersOnline, updatePlayerWhoWantsToPlay, updateRoom} from "./features/player";
+import {
+    updatePlayersOnline,
+    updatePlayersWhoWantsToPlay,
+    removeInvitedPlayers,
+    updateRoom,
+    updateOnlinePlayer
+} from "./features/player";
 import {useDispatch} from "react-redux";
 
 export const socket = io('http://localhost:8000', {
@@ -22,17 +28,26 @@ function App() {
         socket.on('sendingAllUsers', data => {
             console.log(data);
             const list = data.filter(dataPlayer => dataPlayer.socketId !== socket.id);
+            const onlinePlayer = data.find(dataPlayer => dataPlayer.socketId === socket.id);
+            dispatch(updateOnlinePlayer(onlinePlayer));
             dispatch(updatePlayersOnline(list));
         });
-        socket.on('receiveRequest', playerThatSentAnInvite => {
-            dispatch(updatePlayerWhoWantsToPlay(playerThatSentAnInvite));
+        socket.on('receiveRequest', playersThatSentAnInvite => {
+            console.log('playerThatSentAnInvite', playersThatSentAnInvite)
+            dispatch(updatePlayersWhoWantsToPlay(playersThatSentAnInvite));
         });
-        socket.on('denied', result => {
-            dispatch(updateIsInvitationSent(result));
+        socket.on('denied', playerWhoDeniedInvitation => {
+            dispatch(removeInvitedPlayers(playerWhoDeniedInvitation));
         })
         // socket.on('invitationSentSuccessfully', invitedPlayer => {
         //     dispatch(invitedPlayer(invitedPlayer));
         // })
+        socket.on('yourInvitationWasAccepted', playerWhoAcceptedInvite => {
+            dispatch(removeInvitedPlayers(playerWhoAcceptedInvite));
+        })
+        socket.on('timer', room => {
+            dispatch(updateRoom(room))
+        })
         socket.on('joinedRoom', room => {
             console.log('room', room);
             dispatch(updateRoom(room));

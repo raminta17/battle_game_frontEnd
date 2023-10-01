@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {updatePlayer} from "../features/player";
+import {updateError, updatePlayer} from "../features/player";
 import ItemModal from "./ItemModal";
 
 const InventoryItem = ({item}) => {
@@ -22,6 +22,7 @@ const InventoryItem = ({item}) => {
         const res = await fetch('http://localhost:8000/equipItem', options);
         const data = await res.json();
         dispatch(updatePlayer(data.data))
+        dispatch(updateError())
     }
 
     return (

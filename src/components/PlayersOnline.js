@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from "react-redux";
-import SinglePlayer from "./SinglePlayer";
+import SingleOnlinePlayer from "./SingleOnlinePlayer";
 
 const PlayersOnline = () => {
 
@@ -11,7 +11,7 @@ const PlayersOnline = () => {
             <div className="w-100">
                 <h5>PLAYERS ONLINE</h5>
                 {playersOnline.map((player,index) =>
-                    <SinglePlayer key={index} player={player}/>
+                    <SingleOnlinePlayer key={index} player={player}/>
                 )}
             </div>
         </div>

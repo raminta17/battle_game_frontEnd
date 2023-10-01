@@ -1,10 +1,11 @@
 import React from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {updatePlayer} from "../features/player";
 
 const ItemModal = ({item, remove}) => {
 
     const dispatch = useDispatch();
+    const invitedPlayers = useSelector(state=>state.player.invitedPlayers);
 
     async function removeItem() {
         const options = {
@@ -22,7 +23,7 @@ const ItemModal = ({item, remove}) => {
 
     return (
         <div className="itemModal" style={{backgroundColor: item.color ? item.color : 'grey'}}>
-            <b className="d-flex align-items-center justify-content-between">{item.name} {remove && item.id!==1 &&
+            <b className="d-flex align-items-center justify-content-between">{item.name} {remove && item.id!==1 && invitedPlayers.length===0 &&
                 <i onClick={removeItem} className="remove fa-solid fa-trash"></i>}</b>
             {item.level &&
             <div>Level: {item.level}</div>}
