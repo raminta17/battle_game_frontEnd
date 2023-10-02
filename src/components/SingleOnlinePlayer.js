@@ -3,37 +3,30 @@ import {socket} from "../App";
 import {useDispatch, useSelector} from "react-redux";
 import {
     updateError,
-    addInvitedPlayers,
-    removePlayersWhoWantsToPlay
 } from "../features/player";
 
 const SingleOnlinePlayer = ({player}) => {
 
-    const onlinePlayer = useSelector(state=>state.player.onlinePlayer);
-    console.log('onlinePlayer', onlinePlayer);
-    const playersWhoWantsToPlay = useSelector(state => state.player.onlinePlayer.receivedInvitations);
-    const invitedPlayers = useSelector(state => state.player.onlinePlayer.sentInvitations);
     const loggedInPlayer = useSelector(state => state.player.player);
     const error = useSelector(state => state.player.error);
     const dispatch = useDispatch();
-    console.log('playersWhoWantsToPlay', playersWhoWantsToPlay);
-    // console.log('invitedPlayer', invitedPlayers);
+    const playersWhoWantsToPlay = useSelector(state => state.player.playersWhoWantsToPlay);
+    const invitedPlayers = useSelector(state => state.player.invitedPlayers);
     const invitedPlayer = invitedPlayers.find(invitedPlayer => invitedPlayer === player.username);
     const playerWhoWantsToPlay = playersWhoWantsToPlay.find(whoWantsToPlay => whoWantsToPlay === player.username);
-    console.log('playerWhoWantsToPlay', playerWhoWantsToPlay);
     function sendInvite() {
         if (!loggedInPlayer.equippedWeapon) return dispatch(updateError({
             username: player.username,
             message: 'Equip Weapon to start a battle'
         }));
-        dispatch(addInvitedPlayers(player));
         socket.emit('sendInvitation', player.socketId);
     }
 
     function denyInvitation() {
-        // dispatch(removePlayersWhoWantsToPlay(playerWhoWantsToPlay));
         socket.emit('invitationDenied', player.socketId);
-        if(player.username === error.username) dispatch(updateError());
+        if (error) {
+            if(player.username === error.username) dispatch(updateError());
+        }
     }
 
     function acceptInvitation() {
@@ -41,8 +34,7 @@ const SingleOnlinePlayer = ({player}) => {
             username: player.username,
             message: 'Equip Weapon to start a battle'
         }));
-        socket.emit('invitationAccepted', playersWhoWantsToPlay[0]);
-        dispatch(removePlayersWhoWantsToPlay(player))
+        socket.emit('invitationAccepted', playerWhoWantsToPlay);
     }
 
     return (

@@ -9,7 +9,6 @@ const PlayerInBattleComp = ({player}) => {
     const loggedInPlayer = useSelector(state=>state.player.player);
 
     function usePotion(){
-        console.log('clicked on potion');
         if(loggedInPlayer.username === player.username) socket.emit('usePotion', {roomId: room.roomId, username: loggedInPlayer.username})
     }
 
@@ -18,7 +17,9 @@ const PlayerInBattleComp = ({player}) => {
             <h3>{player.username}</h3>
             <div className="arenaImg"><img src={player.monster} alt=""/></div>
             <div className="healthBarCont">
-                <div className="healthBar" style={{width: player.hp + '%'}}>{player.hp} HP</div>
+                <div className="healthBar" style={{width: player.hp + '%'}}>
+                    <b className="healthPoints">{player.hp} HP</b>
+                </div>
             </div>
             <div className="moneyDiv text-light">{loggedInPlayer.username === player.username && `Money: ${player.winPot}$`}</div>
             <div className="equipped justify-content-around">

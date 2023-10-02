@@ -21,6 +21,8 @@ const NavBar = () => {
                 <div>
                     <img src={loggedPlayer.monster} alt=""/>
                 </div>
+                <b>Total wins: {loggedPlayer.victories}</b>
+                <b>Total losses: {loggedPlayer.losses}</b>
             </div>
             <div onClick={handleLogOut}>LOG OUT</div>
         </div>

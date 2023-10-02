@@ -4,19 +4,16 @@ export const playerSlice = createSlice({
     name: 'player',
     initialState: {
         player: null,
-        onlinePlayer: null,
         playersOnline: [],
         playersWhoWantsToPlay: [],
         invitedPlayers: [],
-        room: [],
-        error: null
+        room: null,
+        error: null,
+        abandoned: false
     },
     reducers: {
         updatePlayer: (state, action) => {
             state.player = action.payload;
-        },
-        updateOnlinePlayer: (state, action) => {
-            state.onlinePlayer = action.payload;
         },
         updatePlayersOnline: (state, action) => {
             state.playersOnline = action.payload;
@@ -24,32 +21,27 @@ export const playerSlice = createSlice({
         updatePlayersWhoWantsToPlay: (state, action) => {
             state.playersWhoWantsToPlay = action.payload;
         },
-        removePlayersWhoWantsToPlay: (state, action) => {
-            state.playersWhoWantsToPlay = state.playersWhoWantsToPlay.filter(player => player.username !== action.payload.username);
-        },
-        addInvitedPlayers: (state, action) => {
-            state.invitedPlayers.push(action.payload);
-        },
-        removeInvitedPlayers: (state, action) => {
-            state.invitedPlayers = state.invitedPlayers.filter(player => player.username !== action.payload.username);
+        updateInvitedPlayers: (state, action) => {
+            state.invitedPlayers = action.payload;
         },
         updateRoom: (state,action) => {
             state.room = action.payload;
         },
         updateError: (state,action) => {
             state.error = action.payload;
+        },
+        updateAbandoned: (state, action) => {
+            state.abandoned = action.payload;
         }
     }
 })
 
 export const {updatePlayer,
-    updateOnlinePlayer,
     updatePlayersOnline,
     updatePlayersWhoWantsToPlay,
-    removePlayersWhoWantsToPlay,
-    addInvitedPlayers,
-    removeInvitedPlayers,
+    updateInvitedPlayers,
     updateRoom,
-    updateError} = playerSlice.actions;
+    updateError,
+    updateAbandoned} = playerSlice.actions;
 
 export default playerSlice.reducer;

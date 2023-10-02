@@ -34,7 +34,6 @@ const LobbyPage = () => {
             fetch('http://localhost:8000/getPlayerInfo', options)
                 .then(res => res.json()).then(data => dispatch(updatePlayer(data.data)))
         }
-
     }, []);
 
     return (

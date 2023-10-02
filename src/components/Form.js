@@ -4,7 +4,6 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 import {updatePlayer} from "../features/player";
-import {socket} from "../App";
 
 const Form = ({page, selectedMonsterIndex}) => {
 
@@ -76,10 +75,6 @@ const Form = ({page, selectedMonsterIndex}) => {
                 setError();
                 dispatch(updatePlayer(data.data.findPlayer))
                 nav('/lobby');
-                // socket.auth = {
-                //     token: localStorage.getItem('TOKEN')
-                // }
-                // socket.connect();
             }
         } catch (e) {
             console.log('error', e)

@@ -9,9 +9,7 @@ import {useEffect} from "react";
 import {
     updatePlayersOnline,
     updatePlayersWhoWantsToPlay,
-    removeInvitedPlayers,
-    updateRoom,
-    updateOnlinePlayer
+    updateRoom, updateInvitedPlayers, updateAbandoned
 } from "./features/player";
 import {useDispatch} from "react-redux";
 
@@ -26,38 +24,54 @@ function App() {
 
     useEffect(() => {
         socket.on('sendingAllUsers', data => {
-            console.log(data);
-            const list = data.filter(dataPlayer => dataPlayer.socketId !== socket.id);
             const onlinePlayer = data.find(dataPlayer => dataPlayer.socketId === socket.id);
-            dispatch(updateOnlinePlayer(onlinePlayer));
+            let list = data.filter(player => player.isOnline === true);
+            list = list.filter(dataPlayer => dataPlayer.socketId !== socket.id);
             dispatch(updatePlayersOnline(list));
+            dispatch(updatePlayersWhoWantsToPlay(onlinePlayer.receivedInvitations));
+            dispatch(updateInvitedPlayers(onlinePlayer.sentInvitations));
         });
         socket.on('receiveRequest', playersThatSentAnInvite => {
-            console.log('playerThatSentAnInvite', playersThatSentAnInvite)
             dispatch(updatePlayersWhoWantsToPlay(playersThatSentAnInvite));
         });
-        socket.on('denied', playerWhoDeniedInvitation => {
-            dispatch(removeInvitedPlayers(playerWhoDeniedInvitation));
+        socket.on('yourInvitationWasDenied', updatedSentInvitations => {
+            dispatch(updateInvitedPlayers(updatedSentInvitations));
+        });
+        socket.on('youDeniedInvitation', updatedReceivedInvitations => {
+            dispatch(updatePlayersWhoWantsToPlay(updatedReceivedInvitations));
         })
-        // socket.on('invitationSentSuccessfully', invitedPlayer => {
-        //     dispatch(invitedPlayer(invitedPlayer));
-        // })
-        socket.on('yourInvitationWasAccepted', playerWhoAcceptedInvite => {
-            dispatch(removeInvitedPlayers(playerWhoAcceptedInvite));
+        socket.on('invitationSentSuccessfully', sentInvitations => {
+            dispatch(updateInvitedPlayers(sentInvitations));
+        })
+        socket.on('yourInvitationWasAccepted', updatedSentInvitations => {
+             dispatch(updateInvitedPlayers(updatedSentInvitations));
+        })
+        socket.on('you accepted the invitation', updatedReceivedInvitations => {
+            dispatch(updatePlayersWhoWantsToPlay(updatedReceivedInvitations));
         })
         socket.on('timer', room => {
             dispatch(updateRoom(room))
         })
         socket.on('joinedRoom', room => {
-            console.log('room', room);
             dispatch(updateRoom(room));
             nav('/game');
         });
         socket.on('roomInfo', room => {
-            console.log('room', room);
             dispatch(updateRoom(room));
         })
+        socket.on('youWereLeftAlone', res => {
+            dispatch(updateAbandoned(res));
+        });
+        socket.on('logout', msg => {
+            nav('/');
+            socket.disconnect();
+        })
     }, [])
+
+    window.addEventListener('beforeunload', e => {
+        e.preventDefault();
+        if(!JSON.parse(localStorage.getItem('auto-save'))) return localStorage.removeItem('TOKEN');
+    })
 
     return (
         <div>

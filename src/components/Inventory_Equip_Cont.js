@@ -10,9 +10,10 @@ const Inventory_Equip_Cont = () => {
     const equippedArmour = useSelector(state => state.player.player.equippedArmour);
     const equippedPotion = useSelector(state => state.player.player.equippedPotion);
 
+
     return (
         <div className="inventoryCont">
-            <div>
+            <div className="w-100">
                 <h4>INVENTORY</h4>
                 <div className="inventory">
                     {inventory.map((item, index) =>
