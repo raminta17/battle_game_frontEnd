@@ -23,7 +23,7 @@ const LobbyPage = () => {
 
     useEffect(() => {
 
-        if(JSON.parse(localStorage.getItem('auto-save'))) {
+        if(localStorage.getItem('TOKEN')) {
             const options = {
                 method: 'GET',
                 headers: {
@@ -34,6 +34,7 @@ const LobbyPage = () => {
             fetch('http://localhost:8000/getPlayerInfo', options)
                 .then(res => res.json()).then(data => dispatch(updatePlayer(data.data)))
         }
+        socket.emit('getAllUsersData');
     }, []);
 
     return (

@@ -9,7 +9,9 @@ const PlayerInBattleComp = ({player}) => {
     const loggedInPlayer = useSelector(state=>state.player.player);
 
     function usePotion(){
-        if(loggedInPlayer.username === player.username) socket.emit('usePotion', {roomId: room.roomId, username: loggedInPlayer.username})
+        if(room.gameOver === false) {
+            if(loggedInPlayer.username === player.username) socket.emit('usePotion', {roomId: room.roomId, username: loggedInPlayer.username})
+        }
     }
 
     return (

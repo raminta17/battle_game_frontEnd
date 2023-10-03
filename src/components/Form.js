@@ -10,7 +10,6 @@ const Form = ({page, selectedMonsterIndex}) => {
     const usernameRef = useRef();
     const passRef = useRef();
     const repeatPassRef = useRef();
-    const autoSaveRef = useRef();
     const [error, setError] = useState();
     const nav = useNavigate();
     const dispatch = useDispatch();
@@ -50,7 +49,6 @@ const Form = ({page, selectedMonsterIndex}) => {
     }
 
     async function login() {
-        localStorage.setItem('auto-save', autoSaveRef.current.checked);
         if (!usernameRef.current.value) return setError('username cannot be empty');
         if (!passRef.current.value) return setError('password cannot be empty');
         const user = {
@@ -81,10 +79,6 @@ const Form = ({page, selectedMonsterIndex}) => {
         }
     }
 
-    function handleAutoSave() {
-        localStorage.setItem('auto-save', autoSaveRef.current.checked);
-    }
-
     return (
         <div className="box">
             <div className="error">{error}</div>
@@ -99,8 +93,6 @@ const Form = ({page, selectedMonsterIndex}) => {
             {page === 'Login' ?
                 <>
                     <div className="d-flex  justify-content-center gap-1" >
-                        <label htmlFor="auto">Stay logged in? </label>
-                        <input onChange={handleAutoSave} id="auto" type="checkbox" ref={autoSaveRef}/>
                     </div>
                     <div>Do not have an account? <Link to="/register" style={{textDecoration:'none'}}><span className="span" >Register</span></Link></div>
                 </>

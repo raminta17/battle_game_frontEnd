@@ -7,13 +7,24 @@ import {updateAbandoned, updatePlayer, updateRoom} from "../features/player";
 
 const GamePage = () => {
 
-    socket.connect();
+    useEffect(() => {
+        socket.auth = {
+            token: localStorage.getItem('TOKEN')
+        }
+        socket.connect();
+        socket.emit('getAllUsersData');
+    }, []);
+    useEffect(() => {
+
+    }, []);
 
     const nav = useNavigate();
     const dispatch = useDispatch();
     const room = useSelector(state => state.player.room);
+    console.log('room in battle page from redux', room);
     const abandoned = useSelector(state=>state.player.abandoned);
     const loggedInPlayer = useSelector(state => state.player.player);
+    console.log('loggedInPlayer from redux', loggedInPlayer);
     let player1= null;
     let player2= null;
     if(room) {
@@ -80,7 +91,6 @@ const GamePage = () => {
                     </div>
                         :
                         <div className="page">
-                        {/*<div className="arena flex-column align-items-center h-80">*/}
                            <h3>
                                Your opponent left the battle.
                            </h3>
@@ -90,7 +100,6 @@ const GamePage = () => {
                 </div>
                 :
                 <div className="page">
-                    <h1 className="p-2">YOU ARE ALONE IN THE BATTLE</h1>
                     <button onClick={() => nav('/lobby')}>GO BACK TO LOBBY</button>
                 </div>
             }

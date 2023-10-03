@@ -57,6 +57,7 @@ function App() {
             nav('/game');
         });
         socket.on('roomInfo', room => {
+            console.log('room info coming back from sockets', room)
             dispatch(updateRoom(room));
         })
         socket.on('youWereLeftAlone', res => {
@@ -67,11 +68,6 @@ function App() {
             socket.disconnect();
         })
     }, [])
-
-    window.addEventListener('beforeunload', e => {
-        e.preventDefault();
-        if(!JSON.parse(localStorage.getItem('auto-save'))) return localStorage.removeItem('TOKEN');
-    })
 
     return (
         <div>
