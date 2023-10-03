@@ -1,5 +1,6 @@
-![image](https://github.com/raminta17/battle_game_frontEnd/assets/62699647/2f86aeab-256d-496a-b887-b5cbd7fd2d0f)
+![image](https://github.com/raminta17/battle_game_frontEnd/assets/62699647/2e899bea-c5a5-49ce-b44e-07edb7e1795d)
 
-![image](https://github.com/raminta17/battle_game_frontEnd/assets/62699647/b9a5b12d-665d-4f97-9a6e-d3e9e4a54e6b)
+![image](https://github.com/raminta17/battle_game_frontEnd/assets/62699647/99abd6e8-b5e7-4aa1-9e26-626aaf48b506)
 
-![image](https://github.com/raminta17/battle_game_frontEnd/assets/62699647/f90e4474-6b89-4bc2-b312-529c251fcfd4)
+![image](https://github.com/raminta17/battle_game_frontEnd/assets/62699647/430dcbc8-03ce-4ade-ac78-fd894f96eaf4)
+
